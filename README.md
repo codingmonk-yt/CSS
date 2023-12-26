@@ -897,7 +897,7 @@ p:only-child {
 }
 ```
 
-The above example selects the **<p>** element that is the unique child from its parent, in this case a **<div>**.
+The above example selects the **\<p>** element that is the unique child from its parent, in this case a **\<div>**.
 
 
 
