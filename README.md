@@ -698,6 +698,209 @@ h1:last-of-type {
 
 ![Example](http://i.stack.imgur.com/8RYda.png)
 
+## Section 4.9: CSS3 :in-range selector example
+
+```html
+<style>
+input:in-range {
+    border: 1px solid blue;
+}
+</style>
+
+<input type="number" min="10" max="20" value="15">
+<p>The border for this value will be blue</p>
+```
+
+The :in-range CSS pseudo-class matches when an element has its value attribute inside the specified range limitations for this element. It allows the page to give a feedback that the value currently defined using the element is inside the range limits.
+
+## Section 4.10: The :not pseudo-class example & B. :focus- within CSS pseudo-class
+
+A. The syntax is presented above.
+
+The following selector matches all <input> elements in an HTML document that are not disabled and don't have the
+class .example:
+
+HTML:
+
+```html
+<form>
+  Phone: <input type="tel" class="example">
+  E-mail: <input type="email" disabled="disabled">
+  Password: <input type="password">
+</form>
+```
+
+CSS:
+
+```css
+input:not([disabled]):not(.example){
+  background-color: #ccc;
+}
+```
+
+The :not() pseudo-class will also support comma-separated selectors in Selectors Level 4:
+
+CSS:
+
+```css
+input:not([disabled], .example){
+  background-color: #ccc;
+}
+```
+
+## The :focus-within CSS pseudo-class
+
+HTML:
+
+```html
+<h3>Background is blue if the input is focused .</p>
+<div>
+  <input type="text">
+</div>
+```
+
+CSS:
+
+```css
+div {
+  height: 80px;
+}
+input {
+  margin:30px;
+}
+div:focus-within {
+  background-color: #1565C0;
+}
+
+```
+
+![Focus-within example](https://i.stack.imgur.com/S4ke4.png)
+
+![compatibility](https://i.stack.imgur.com/YGn3H.png)
+
+## Section 4.11: Global boolean with checkbox:checked and ~ (general sibling combinator)
+
+With the ~ selector, you can easily implement a global accessible boolean without using JavaScript.
+
+### Add boolean as a checkbox
+
+To the very beginning of your document, add as much booleans as you want with a unique id and the hidden attribute set:
+
+```html
+<input type="checkbox" id="sidebarShown" hidden />
+<input type="checkbox" id="darkThemeUsed" hidden />
+<!-- here begins actual content, for example: -->
+<div id="container">
+  <div id="sidebar">
+        <!-- Menu, Search, ... -->
+  </div>
+    <!-- Some more content ... -->
+</div>
+<div id="footer">
+  <!-- ... -->
+</div>
+```
+
+### Change the boolean's value
+
+You can toggle the boolean by adding a label with the for attribute set:
+
+```html
+<label for="sidebarShown">Show/Hide the sidebar!</label>
+```
+
+### Accessing boolean value with CSS 
+
+The normal selector (like .color-red) specifies the default properties. They can be overridden by following true / false selectors:
+
+```css
+/* true: */
+<checkbox>:checked ~ [sibling of checkbox & parent of target] <target>
+/* false: */
+<checkbox>:not(:checked) ~ [sibling of checkbox & parent of target] <target>
+```
+
+Note that **<checkbox>**, [sibling ...] and **<target>** should be replaced by the proper selectors. [sibling ...] can be a specific selector, (often if you're lazy) simply * or nothing if the target is already a sibling of the checkbox.
+
+Examples for the above HTML structure would be:
+
+```css
+#sidebarShown:checked ~ #container #sidebar {
+  margin-left: 300px;
+}
+#darkThemeUsed:checked ~ #container,
+#darkThemeUsed:checked ~ #footer {
+  background: #333;
+}
+```
+
+## Section 4.12: ID selectors
+
+ID selectors select DOM elements with the targeted ID. To select an element by a specific ID in CSS, the # prefix is used.
+
+For example, the following HTML div element...
+
+```css
+<div id="exampleID">
+  <p>Example</p>
+</div>
+```
+
+...can be selected by #exampleID in CSS as shown below:
+
+```css
+#exampleID {
+  width: 20px;
+}
+```
+
+> **Note**: The HTML specs do not allow multiple elements with the same ID
+
+
+## Section 4.13: How to style a Range input
+
+### HTML
+
+```html
+<input type="range"></input>
+```
+### CSS
+
+| Effect | Pseudo Selector |
+|--------|-----------------|
+| Thumb | input[type=range]::-webkit-slider-thumb, input[type=range]::-moz-range-thumb, input[type=range]::-ms-thumb |
+| Track | input[type=range]::-webkit-slider-runnable-track, input[type=range]::-moz-range-track, input[type=range]::-ms-track |
+| OnFocus | input[type=range]:focus |
+| Lower part of the track | input[type=range]::-moz-range-progress, input[type=range]::-ms-fill-lower (not possible in WebKit browsers currently - JS needed) |
+
+## Section 4.14: The :only-child pseudo-class selector example
+
+The :only-child CSS pseudo-class represents any element which is the only child of its parent.
+
+### HTML:
+
+```html
+<div>
+  <p>This paragraph is the only child of the div, it will have the color blue</p>
+</div>
+<div>
+  <p>This paragraph is one of the two children of the div</p>
+  <p>This paragraph is one of the two children of its parent</p>
+</div>
+```
+
+### CSS:
+
+```css
+p:only-child {
+  color: blue;
+}
+```
+
+The above example selects the **<p>** element that is the unique child from its parent, in this case a **<div>**.
+
+
+
 
 
 
