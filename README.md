@@ -310,6 +310,286 @@ CSS selectors identify specific HTML elements as targets for CSS styles. This to
 > **Note:** The value of an ID must be unique in a web page. It is a violation of the HTML standard to use the value of an ID more than
 > once in the same document tree.
 
+## Section 4.2: Attribute Selectors
+
+### Overview
+
+Attribute selectors can be used with various types of operators that change the selection criteria accordingly. They select an element using the presence of a given attribute or attribute value.
+
+| Selector | Matched element | Selects elements |
+|----------|-----------------|------------------|
+| [attr] | \<div attr > | With attribute **attr** |
+| [attr='val'] | \<div attr="val" > | Where attribute **attr** has value val |
+| [attr~='val'] | \<div attr="val val2 val3" > | Where val appears in the whitespace-separated list of **attr** |
+| [attr^='val'] | \<div attr="val1 val2" > | Where **attr**'s value begins with val |
+| [attr$='val'] | \<div attr="sth aval" > | Where the **attr**'s value ends with val |
+| [attr*='val'] | \<div attr="somevalhere" > | Where **attr** contains val anywhere |
+| [attr\|='val'] | \<div attr="val-sth etc" > | Where **attr**'s value is exactly val,or starts with val and immediately followed by (U+002D) |
+| [attr='val' i] | \<div attr="val" > | Where **attr** has value val, ignoring val's letter casing |
+
+## Note:
+
+* The attribute value can be surrounded by either single-quotes or double-quotes. No quotes at all may also work, but it's not valid according to the CSS standard, and is discouraged.
+
+
+### Example
+
+#### [attribute]
+
+Selects elements with the given attribute.
+
+```css
+div[data-color] {
+  color: red;
+}
+<div data-color="red">This will be red</div>
+<div data-color="green">This will be red</div>
+<div data-background="red">This will NOT be red</div>
+```
+
+#### [attribute="value"]
+
+Selects elements with the given attribute and value.
+
+```css
+div[data-color="red"] {
+  color: red;
+}
+<div data-color="red">This will be red</div>
+<div data-color="green">This will NOT be red</div>
+<div data-color="blue">This will NOT be red</div>
+```
+
+#### [attribute*="value"]
+
+Selects elements with the given attribute and value where the given attribute contains the given value anywhere (as
+a substring).
+
+```css
+[class*="foo"] {
+  color: red;
+}
+<div class="foo-123">This will be red</div>
+<div class="foo123">This will be red</div>
+<div class="bar123foo">This will be red</div>
+<div class="barfooo123">This will be red</div>
+<div class="barfo0">This will NOT be red</div>
+```
+
+#### [attribute~="value"]
+
+Selects elements with the given attribute and value where the given value appears in a whitespace-separated list.
+
+```css
+[class~="color-red"] {
+  color: red;
+}
+<div class="color-red foo-bar the-div">This will be red</div>
+<div class="color-blue foo-bar the-div">This will NOT be red</div>
+```
+
+#### [attribute^="value"]
+
+Selects elements with the given attribute and value where the given attribute begins with the value.
+
+```css
+[class^="foo-"] {
+  color: red;
+}
+<div class="foo-123">This will be red</div>
+<div class="foo-234">This will be red</div>
+<div class="bar-123">This will NOT be red</div>
+```
+
+#### [attribute$="value"]
+
+Selects elements with the given attribute and value where the given attribute ends with the given value.
+
+```css
+[class$="file"] {
+  color: red;
+}
+<div class="foobar-file">This will be red</div>
+<div class="foobar-file">This will be red</div>
+<div class="foobar-input">This will NOT be red</div>
+```
+
+#### [attribute|="value"]
+
+Selects elements with a given attribute and value where the attribute's value is exactly the given value or is exactly
+the given value followed by - (U+002D)
+
+```css
+[lang|="EN"] {
+  color: red;
+}
+<div lang="EN-us">This will be red</div>
+<div lang="EN-gb">This will be red</div>
+<div lang="PT-pt">This will NOT be red</div>
+```
+
+#### [attribute="value" i]
+
+Selects elements with a given attribute and value where the attribute's value can be represented as Value, VALUE,
+vAlUe or any other case-insensitive possibility.
+
+```css
+[lang="EN" i] {
+  color: red;
+}
+<div lang="EN">This will be red</div>
+<div lang="en">This will be red</div>
+<div lang="PT">This will NOT be red</div>
+```
+
+#### Specificity of attribute selectors
+
+Same as class selector and pseudoclass.
+
+```css
+*[type=checkbox]
+```
+
+Note that this means an attribute selector can be used to select an element by its ID at a lower level of specificity than if it was selected with an ID selector: __[id="**my-ID**"]__ targets the same element as __**#my-ID**__ but with lower specificity.
+
+## Section 4.3: Combinators
+
+### Overview
+
+| Selector | Description |
+|----------|-------------|
+| div span | Descendant selector (all <span>s that are descendants of a <div>) |
+| div > span | Child selector (all <span>s that are a direct child of a <div>) |
+| a ~ span | General Sibling selector (all <span>s that are siblings after an <a>) |
+| a + span | Adjacent Sibling selector (all <span>s that are immediately after an <a>) |
+
+#### Descendant Combinator: selector selector
+
+A descendant combinator, represented by at least one space character (), selects elements that are a descendant of
+the defined element. This combinator selects all descendants of the element (from child elements on down).
+
+```css
+div p {
+  color:red;
+}
+<div>
+  <p>My text is red</p>
+  <section>
+    <p>My text is red</p>
+  </section>
+</div>
+<p>My text is not red</p>
+```
+
+In the above example, the first two <p> elements are selected since they are both descendants of the **<div>**.
+
+#### Child Combinator: selector > selector
+
+The child (>) combinator is used to select elements that are **children**, or **direct descendants**, of the specified element.
+
+```css
+div > p {
+  color:red;
+}
+<div>
+  <p>My text is red</p>
+  <section>
+    <p>My text is not red</p>
+  </section>
+</div>
+```
+
+The above CSS selects only the first **<p>** element, as it is the only paragraph directly descended from a **<div>**. 
+
+The second **<p>** element is not selected because it is not a direct child of the **<div>**.
+
+#### Adjacent Sibling Combinator: selector + selector
+
+The adjacent sibling (+) combinator selects a sibling element that immediate follows a specified element.
+
+```css
+p+p{
+  color:red;
+}
+<p>My text is not red</p>
+<p>My text is red</p>
+<p>My text is red</p>
+<hr>
+<p>My text is not red</p>
+```
+The above example selects only those **<p>** elements which are directly preceded by another **<p>** element.
+
+#### General Sibling Combinator: selector ~ selector
+
+The general sibling (~) combinator selects all siblings that follow the specified element.
+
+```css
+p~p {
+  color:red;
+}
+<p>My text is not red</p>
+<p>My text is red</p>
+<hr>
+<h1>And now a title</h1>
+<p>My text is red</p>
+
+```
+
+The above example selects all **<p>** elements that are preceded by another **<p>** element, whether or not they are immediately adjacent.
+
+## Section 4.4: Pseudo-classes
+
+[Pseudo-classes](https://www.w3.org/TR/selectors/#pseudo-classes) are keywords which allow selection based on information that lies outside of the document tree or that cannot be expressed by other selectors or combinators. This information can be associated to a certain state (state and dynamic pseudo-classes), to locations (structural and target pseudo-classes), to negations of the former (negation pseudo-class) or to languages (lang pseudo-class). Examples include whether or not a link has been followed (:visited), the mouse is over an element (:hover), a checkbox is checked (:checked), etc.
+
+### Syntax
+
+```css
+selector:pseudo-class {
+  property: VALUE;
+}
+```
+
+### List of pseudo-classes:
+
+| Name | Description |
+|------|-------------|
+| :active | Applies to any element being activated (i.e. clicked) by the user. |
+| :any | Allows you to build sets of related selectors by creating groups that the included items will match. This is an alternative to repeating an entire selector. |
+| :target | Selects the current active #news element (clicked on a URL containing that anchor name) |
+| :checked | Applies to radio, checkbox, or option elements that are checked or toggled into an "on" state. |
+| :default | Represents any user interface element that is the default among a group of similar elements. |
+| :disabled | Applies to any UI element which is in a disabled state. |
+| :empty | Applies to any element which has no children. |
+| :enabled | Applies to any UI element which is in an enabled state. |
+| :first | Used in conjunction with the @page rule, this selects the first page in a printed document |
+| :first-child | Represents any element that is the first child element of its parent. |
+| :first-of-type | Applies when an element is the first of the selected element type inside its parent. This may or may not be the first-child. |
+| :focus | Applies to any element which has the user's focus. This can be given by the user's keyboard, mouse events, or other forms of input. |
+| :focus-within | Can be used to highlight a whole section when one element inside it is focused. It matches any element that the :focus pseudo-class matches or that has a descendant focused. |
+| :full-screen | Applies to any element displayed in full-screen mode. It selects the whole stack of elements and not just the top level element. |
+| :hover | Applies to any element being hovered by the user's pointing device, but not activated. |
+| :indeterminate | Applies radio or checkbox UI elements which are neither checked nor unchecked, but are in an indeterminate state. This can be due to an element's attribute or DOM manipulation. |
+| :in-range | The :in-range CSS pseudo-class matches when an element has its value attribute inside the specified range limitations for this element. It allows the page to give a feedback that the value currently defined using the element is inside the range limits. |
+| :invalid | Applies to <input> elements whose values are invalid according to the type specified in the type= attribute. |
+| :lang | Applies to any element who's wrapping <body> element has a properly designated lang= attribute. For the pseudo-class to be valid, it must contain a valid two or three letter language code. |
+| :last-child | Represents any element that is the last child element of its parent. |
+| :last-of-type | Applies when an element is the last of the selected element type inside its parent. This may or may not be the last-child. |
+| :left | Used in conjunction with the @page rule, this selects all the left pages in a printed document. |
+| :link | Applies to any links which haven't been visited by the user. |
+| :not() | Applies to all elements which do not match the value passed to (:not(p) or :not(.class-name) for example. It must have a value to be valid and it can only contain one selector. However, you can chain multiple :not selectors together. |
+| :nth-child | Applies when an element is the n-th element of its parent, where n can be an integer, a mathematical expression (e.g n+3) or the keywords odd or even. |
+| :nth-of-type | Applies when an element is the n-th element of its parent of the same element type, where n can be an integer, a mathematical expression (e.g n+3) or the keywords odd or even. |
+| :only-child | The :only-child CSS pseudo-class represents any element which is the only child of its parent. This is the same as :first-child:last-child or :nth-child(1):nth-last-child(1), but with a lower specificity. |
+| :optional | The :optional CSS pseudo-class represents any element that does not have the required attribute set on it. This allows forms to easily indicate optional fields and to style them accordingly. |
+| :out-of-range | The :out-of-range CSS pseudo-class matches when an element has its value attribute outside the specified range limitations for this element. It allows the page to give a feedback that the value currently defined using the element is outside the range limits. A value can be outside of a range if it is either smaller or larger than maximum and minimum set values. |
+| :placeholder-shown | **Experimental**. Applies to any form element currently displaying placeholder text. |
+| :read-only | Applies to any element which is not editable by the user. |
+| :read-write | Applies to any element that is editable by a user, such as <input> elements. |
+| :right | Used in conjunction with the @page rule, this selects all the right pages in a printed document. |
+| :root | matches the root element of a tree representing the document. |
+| :scope | CSS pseudo-class matches the elements that are a reference point for selectors to match against. |
+| :target | Selects the current active #news element (clicked on a URL containing that anchor name) |
+| :visited | Applies to any links which have has been visited by the user. |
 
 
 
