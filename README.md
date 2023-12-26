@@ -260,5 +260,62 @@ A CSS **rule** consists of a **selector** (e.g. h1) and **declaration block** ({
 h1 {}
 ```
 
+-----
 
+# Comments
+
+## Section 3.1: Single Line
+
+```css
+/* This is a CSS comment */
+  div {
+    color: red; /* This is a CSS comment */
+  }
+```
+
+## Section 3.2: Multiple Line 
+
+```css
+/*
+This
+    is
+    a
+    CSS
+    comment
+*/
+  div {
+    color: red;
+  }
+```
+-----
+
+# Selectors
+
+CSS selectors identify specific HTML elements as targets for CSS styles. This topic covers how CSS selectors target HTML elements. Selectors use a wide range of over 50 selection methods offered by the CSS language, including elements, classes, IDs, pseudo-elements and pseudo-classes, and patterns.
+
+## Section 4.1: Basic selectors
+
+| Selector | Description |
+|----------|-------------|
+| * | Universal selector (all elements) |
+| div | Tag selector (all <div> elements) |
+| .blue | Class selector (all elements with class blue) |
+| .blue.re | All elements with class blue and red (a type of Compound selector) |
+| #headline | ID selector (the element with "id" attribute set to headline) |
+| :pseudo-class | All elements with pseudo-class |
+| ::pseudo-element | Element that matches pseudo-element |
+| :lang(en) | Element that matches :lang declaration, for example \<span lang="en"> |
+| div > p | child selector |
+
+> **Note:** The value of an ID must be unique in a web page. It is a violation of the HTML standard to use the value of an ID more than
+> once in the same document tree.
+
+
+
+
+
+
+
+
+ 
 
