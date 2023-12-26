@@ -206,8 +206,59 @@ li {
 }
 ```
 
+---------------
 
+# Structure and Formatting of a CSS Rule
 
+## Section 2.1: Property Lists
+
+Some properties can take multiple values, collectively known as a **property list**.
+
+```css
+/* Two values in this property list */
+span {
+  text-shadow: yellow 0 0 3px, green 4px 4px 10px;
+}
+/* Alternate Formatting */
+span {
+  text-shadow:
+    yellow 0 0 3px,
+    green 4px 4px 10px;
+}
+
+```
+
+## Section 2.2: Multiple Selectors
+
+When you group CSS selectors, you apply the same styles to several different elements without repeating the styles in your style sheet. Use a comma to separate multiple grouped selectors.
+
+```css
+div, p { color: blue }
+```
+
+So the blue color applies to all **<div>** elements and all **<p>** elements. Without the comma only **<p>** elements that are
+a child of a **<div>** would be red.
+
+This also applies to all types of selectors.
+
+```css
+p, .blue, #first, div span{ color : blue }
+```
+
+This rule applies to:
+
+  * <p>
+  * elements of the blue class
+  * element with the ID first
+  * every <span> inside of a <div>
+
+## Section 2.3: Rules, Selectors, and Declaration Blocks
+
+A CSS **rule** consists of a **selector** (e.g. h1) and **declaration block** ({}).
+
+```css
+h1 {}
+```
 
 
 
