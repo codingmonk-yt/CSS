@@ -591,6 +591,116 @@ selector:pseudo-class {
 | :target | Selects the current active #news element (clicked on a URL containing that anchor name) |
 | :visited | Applies to any links which have has been visited by the user. |
 
+## Section 4.5: Child Pseudo Class
+
+> The :nth-child(an+b) CSS pseudo-class matches an element that has an+b-1 siblings before it in the document tree, for a given
+> positive **or zero value** for n" - [MDN :nth-child]
+
+
+| pseudo-selector | 1 2 3 4 5 6 7 8 9 10 |
+|-----------------|----------------------|
+| :first-child | 1  |
+| :nth-child(3) | 3 |
+| :nth-child(n+3) | 3 4 5 6 7 8 9 10 |
+| :nth-child(3n) | 3 6 9 |
+| :nth-child(3n+1) | 1 4 7 10 |
+| :nth-child(-n+3) | 1 2 3 |
+| :nth-child(odd) | 1 3 5 7 9 |
+| :nth-child(even) | 2 4 6 8 10 |
+| :last-child | 10 |
+| :nth-last-child(3) | 8 |
+
+## Section 4.6: Class Name Selectors
+
+The class name selector select all elements with the targeted class name. For example, the class name .warning would select the following <div> element:
+
+```css
+<div class="warning">
+  <p>This would be some warning copy.</p>
+</div>
+```
+
+You can also combine class names to target elements more specifically. Let's build on the example above to showcase a more complicated class selection.
+
+### CSS 
+
+```css
+.important {
+  color: orange;
+}
+.warning {
+  color: blue;
+}
+.warning.important {
+  color: red;
+}
+```
+
+### HTML
+
+```html
+<div class="warning">
+  <p>This would be some warning copy.</p>
+</div>
+<div class="important warning">
+  <p class="important">This is some really important warning copy.</p>
+</div>
+```
+
+In this example, all elements with the .warning class will have a blue text color, elements with the .important class with have an orange text color, and all elements that have both the .important and .warning class name will have a red text color.
+
+
+Notice that within the CSS, the .warning.important declaration did not have any spaces between the two class names. This means it will only find elements which contain both class names warning and important in their class attribute. Those class names could be in any order on the element.
+
+
+If a space was included between the two classes in the CSS declaration, it would only select elements that have parent elements with a .warning class names and child elements with .important class names.
+
+## Section 4.7: Select element using its ID without the high specificity of the ID selector
+
+This trick helps you select an element using the ID as a value for an attribute selector to avoid the high specificity of the ID selector.
+
+### HTML:
+
+```html
+<div id="element">...</div>
+```
+
+### CSS:
+
+```css
+#element { ... } /* High specificity will override many selectors */
+
+[id="element"] { ... } /* Low specificity, can be overridden easily */
+```
+
+## Section 4.8: The :last-of-type selector
+
+The __:last-of-type__ selects the element that is the last child, of a particular type, of its parent. In the example below, the css selects the last paragraph and the last heading h1.
+
+```html
+p:last-of-type {
+  background: #C5CAE9;
+}
+h1:last-of-type {
+  background: #CDDC39;
+}
+
+<div class="container">
+  <p>First paragraph</p>
+  <p>Second paragraph</p>
+  <p>Last paragraph</p>
+  <h1>Heading 1</h1>
+  <h2>First heading 2</h2>
+  <h2>Last heading 2</h2>
+</div>
+
+```
+
+![Example](http://i.stack.imgur.com/8RYda.png)
+
+
+
+
 
 
 
